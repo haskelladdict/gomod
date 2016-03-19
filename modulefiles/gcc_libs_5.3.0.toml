@@ -1,0 +1,50 @@
+[description]
+"long" = """
+gcc version 5.3.0
+
+Usage Notes:
+------------
+
+Libraries Used:
+---------------
+
+Packages Used:
+--------------
+
+Optional Packages:
+------------------
+none
+
+Testing:
+--------
+$ module load gcc_libs-5.3.0
+
+--
+Website: http://www.gcc.gnu.org/
+ Source: http://mirrors.concertpass.com/gcc/releases/gcc-5.3.0/
+   Test: See 'Testing' section above.
+--
+Build_Date: bioteam_2016_2_26 (http://wwww.bioteam.net)
+"""
+
+short = """
+This module contains the GNU compiler collection libraries
+Version: 5.3.0
+"""
+
+[prependEnv]
+LD_LIBRARY_PATH = "/software/apps/gcc_libs/gcc/64/5.3.0/lib64"
+LIBRARY_PATH = "/software/apps/gcc_libs/gcc/64/5.3.0/lib64"
+
+[setEnv]
+sa_apps = "/software/apps/gcc_libs/gcc/64/5.3.0"
+sa_builds = "/software/builds/gcc_libs/gcc/64/5.3.0"
+sa_downloads = "/software/downloads/gcc_libs/gcc/64/5.3.0"
+sa_modulefiles = "/software/modulefiles/gcc_libs/gcc/64"
+sa_temp = "/software/temp"
+sa_tests = "/software/tests"
+
+[loadModules]
+"mpc/gcc/65/1.0.3", 
+"gmp/gcc/65/6.1.0", 
+"mpfr/gcc/64/3.1.3"
