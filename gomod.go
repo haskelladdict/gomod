@@ -37,6 +37,7 @@ func main() {
 	fmt.Println(mod.Desc.Short)
 	fmt.Println(mod.SetEnv.Vars)
 	fmt.Println(mod.UnsetEnv.Vars)
+	fmt.Println(mod.ConflictMods.Vars)
 }
 
 //

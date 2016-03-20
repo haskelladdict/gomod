@@ -17,8 +17,18 @@ This module contains the GNU compiler collection libraries
 Version: 5.3.0 
 """
 
-# loadModules descripts other modules required by this module
-loadModules = [
+# conflictMods lists modules which conflict with loading the current module
+conflictMods = [
+"clang_3.8.0"
+]
+
+# prereqMods lists modules which need to be loaded before loading the current module
+prereqMods = [
+"zlib_1.2.3"
+]
+
+# loadMods lists modules which will be loaded after loading of the current module
+loadMods = [
 "mpcc_1.0.3", 
 "gmp_6.1.0", 
 "mpfr_3.1.3"

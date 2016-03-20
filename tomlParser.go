@@ -18,20 +18,22 @@ type envSpec struct {
 	Vars map[string]string
 }
 
-// loadModulesSpec captures additional module to be loaded
-type loadModulesSpec struct {
+// modulesSpec captures a list of additional modules
+type modulesSpec struct {
 	Vars []string
 }
 
 // Module captures the information for a given module
 type Module struct {
-	Desc        description
-	AppendEnv   envSpec
-	PrependEnv  envSpec
-	RemoveEnv   envSpec
-	SetEnv      envSpec
-	UnsetEnv    envSpec
-	LoadModules loadModulesSpec
+	Desc         description
+	AppendEnv    envSpec
+	PrependEnv   envSpec
+	RemoveEnv    envSpec
+	SetEnv       envSpec
+	UnsetEnv     envSpec
+	LoadMods     modulesSpec
+	ConflictMods modulesSpec
+	PrereqMods   modulesSpec
 }
 
 // UnmarshalTOML knows how to parse a module file description in toml format
@@ -53,32 +55,42 @@ func (m *Module) UnmarshalTOML(data interface{}) (err error) {
 		case "prependEnv":
 			vMap := v.(map[string]interface{})
 			if m.PrependEnv.Vars, ok = parseMapVars(vMap); !ok {
-				return fmt.Errorf("parse error in [PrependEnv]")
+				return fmt.Errorf("parse error in [prependEnv]")
 			}
 		case "appendEnv":
 			vMap := v.(map[string]interface{})
 			if m.AppendEnv.Vars, ok = parseMapVars(vMap); !ok {
-				return fmt.Errorf("parse error in [AppendEnv]")
+				return fmt.Errorf("parse error in [appendEnv]")
 			}
 		case "removeEnv":
 			vMap := v.(map[string]interface{})
 			if m.PrependEnv.Vars, ok = parseMapVars(vMap); !ok {
-				return fmt.Errorf("parse error in [RemoveEnv]")
+				return fmt.Errorf("parse error in [removeEnv]")
 			}
 		case "setEnv":
 			vMap := v.(map[string]interface{})
 			if m.SetEnv.Vars, ok = parseMapVars(vMap); !ok {
-				return fmt.Errorf("parse error in [SetEnv]")
+				return fmt.Errorf("parse error in [setEnv]")
 			}
 		case "unsetEnv":
 			vMap := v.(map[string]interface{})
 			if m.UnsetEnv.Vars, ok = parseMapVars(vMap); !ok {
-				return fmt.Errorf("parse error in [UnsetEnv]")
+				return fmt.Errorf("parse error in [unsetEnv]")
 			}
-		case "loadModules":
+		case "loadMods":
 			vArr := v.([]interface{})
-			if m.LoadModules.Vars, ok = parseArrayVars(vArr); !ok {
-				return fmt.Errorf("parse error in [LoadModules]")
+			if m.LoadMods.Vars, ok = parseArrayVars(vArr); !ok {
+				return fmt.Errorf("parse error in [loadMods]")
+			}
+		case "conflictMods":
+			vArr := v.([]interface{})
+			if m.ConflictMods.Vars, ok = parseArrayVars(vArr); !ok {
+				return fmt.Errorf("parse error in [conflictMods]")
+			}
+		case "prereqMods":
+			vArr := v.([]interface{})
+			if m.PrereqMods.Vars, ok = parseArrayVars(vArr); !ok {
+				return fmt.Errorf("parse error in [prereqMods]")
 			}
 		}
 	}
