@@ -11,13 +11,8 @@ type description struct {
 	Short string
 }
 
-// prependEnvSpec captures environmental variables to be appended to
-type prependEnvSpec struct {
-	Vars map[string]string
-}
-
-// setEnvSpec captures environmental variables to be set
-type setEnvSpec struct {
+// envSpec captures environmental variables to be acted on
+type envSpec struct {
 	Vars map[string]string
 }
 
@@ -29,8 +24,9 @@ type loadModulesSpec struct {
 // Module captures the information for a given module
 type Module struct {
 	Desc        description
-	PrependEnv  prependEnvSpec
-	SetEnv      setEnvSpec
+	PrependEnv  envSpec //prependEnvSpec
+	SetEnv      envSpec //setEnvSpec
+	UnsetEnv    envSpec
 	LoadModules loadModulesSpec
 }
 
@@ -58,14 +54,17 @@ func (m *Module) UnmarshalTOML(data interface{}) (err error) {
 			}
 		case "setEnv":
 			vMap := v.(map[string]interface{})
-			m.SetEnv.Vars, ok = parseMapVars(vMap)
-			if !ok {
+			if m.SetEnv.Vars, ok = parseMapVars(vMap); !ok {
 				return fmt.Errorf("parse error in [SetEnv]")
+			}
+		case "unsetEnv":
+			vMap := v.(map[string]interface{})
+			if m.UnsetEnv.Vars, ok = parseMapVars(vMap); !ok {
+				return fmt.Errorf("parse error in [UnsetEnv]")
 			}
 		case "loadModules":
 			vArr := v.([]interface{})
-			m.LoadModules.Vars, ok = parseArrayVars(vArr)
-			if !ok {
+			if m.LoadModules.Vars, ok = parseArrayVars(vArr); !ok {
 				return fmt.Errorf("parse error in [LoadModules]")
 			}
 		}

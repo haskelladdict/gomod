@@ -1,2 +1,5 @@
 gomod
 tags
+
+# ignore vim swap files
+*.swp 

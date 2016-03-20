@@ -54,4 +54,5 @@ COOL_ENV = "very cool"
 # NOTE: if an optional value is provided it will be used to set the environmental
 # variable after unsetting
 [unsetEnv]
+COOL_ENV = "default"
 
