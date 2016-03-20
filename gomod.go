@@ -33,6 +33,7 @@ func main() {
 		log.Fatal("failed to parse module file ", err)
 	}
 	fmt.Println(mod.Desc.Short)
+	fmt.Println(mod.PrependEnv.Vars)
 	fmt.Println(mod.LoadModules.Vars)
 }
 

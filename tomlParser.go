@@ -23,7 +23,7 @@ type setEnvSpec struct {
 
 // loadModulesSpec captures additional module to be loaded
 type loadModulesSpec struct {
-	Vars map[string]string
+	Vars []string
 }
 
 // Module captures the information for a given module
@@ -45,27 +45,26 @@ func (m *Module) UnmarshalTOML(data interface{}) (err error) {
 	dataMap, _ := data.(map[string]interface{})
 	var ok bool
 	for k, v := range dataMap {
-		vMap := v.(map[string]interface{})
 		switch k {
-		case "description":
-			if i, o := vMap["long"]; o {
-				m.Desc.Long = i.(string)
-			}
-			if i, o := vMap["short"]; o {
-				m.Desc.Short = i.(string)
-			}
+		case "longDescription":
+			m.Desc.Long = v.(string)
+		case "shortDescription":
+			m.Desc.Short = v.(string)
 		case "prependEnv":
-			m.PrependEnv.Vars, ok = parseVars(vMap)
+			vMap := v.(map[string]interface{})
+			m.PrependEnv.Vars, ok = parseMapVars(vMap)
 			if !ok {
 				return fmt.Errorf("parse error in [PrependEnv]")
 			}
 		case "setEnv":
-			m.SetEnv.Vars, ok = parseVars(vMap)
+			vMap := v.(map[string]interface{})
+			m.SetEnv.Vars, ok = parseMapVars(vMap)
 			if !ok {
 				return fmt.Errorf("parse error in [SetEnv]")
 			}
 		case "loadModules":
-			m.LoadModules.Vars, ok = parseVars(vMap)
+			vArr := v.([]interface{})
+			m.LoadModules.Vars, ok = parseArrayVars(vArr)
 			if !ok {
 				return fmt.Errorf("parse error in [LoadModules]")
 			}
@@ -74,11 +73,24 @@ func (m *Module) UnmarshalTOML(data interface{}) (err error) {
 	return nil
 }
 
-func parseVars(m map[string]interface{}) (map[string]string, bool) {
+// parseMapVars parses a map[string]string from a map[string]interface{}
+func parseMapVars(m map[string]interface{}) (map[string]string, bool) {
 	vars := make(map[string]string)
 	var ok bool
 	for kk, vv := range m {
 		if vars[kk], ok = vv.(string); !ok {
+			return nil, false
+		}
+	}
+	return vars, true
+}
+
+// parseArrayVars parses a []string from a []interface{}
+func parseArrayVars(a []interface{}) ([]string, bool) {
+	vars := make([]string, len(a))
+	var ok bool
+	for i, vv := range a {
+		if vars[i], ok = vv.(string); !ok {
 			return nil, false
 		}
 	}
