@@ -2,29 +2,13 @@
 longDescription = """
 gcc version 5.3.0
 
-Usage Notes:
-------------
-
-Libraries Used:
----------------
-
-Packages Used:
---------------
-
-Optional Packages:
-------------------
-none
-
 Testing:
 --------
 $ module load gcc_libs-5.3.0
 
---
 Website: http://www.gcc.gnu.org/
  Source: http://mirrors.concertpass.com/gcc/releases/gcc-5.3.0/
    Test: See 'Testing' section above.
---
-Build_Date: bioteam_2016_2_26 (http://wwww.bioteam.net)
 """
 
 # short description of module package
@@ -33,17 +17,32 @@ This module contains the GNU compiler collection libraries
 Version: 5.3.0 
 """
 
-# load other modules required by this module
+# loadModules descripts other modules required by this module
 loadModules = [
-"mpc/gcc/65/1.0.3", 
-"gmp/gcc/65/6.1.0", 
-"mpfr/gcc/64/3.1.3"
+"mpcc_1.0.3", 
+"gmp_6.1.0", 
+"mpfr_3.1.3"
 ]
 
 # prepend the given values for each of the listed environmental variables.
+# NOTE: The delimiter for prepending is a colon ":"
 [prependEnv]
-LD_LIBRARY_PATH = "/software/apps/gcc_libs/gcc/64/5.3.0/lib64"
-LIBRARY_PATH = "/software/apps/gcc_libs/gcc/64/5.3.0/lib64"
+LD_LIBRARY_PATH = "/path/to/sth"
+LIBRARY_PATH = "/path/to/sth1"
+
+# append the given values for each of the listed environmental variables.
+# NOTE: The delimiter for appending is a colon ":"
+[appendEnv]
+LD_LIBRARY_PATH = "/another/path"
+LIBRARY_PATH = "/important/path"
+
+# remove the given values for each of the listed environmental variables.
+# NOTE 1: The delimiter for splitting values for the listed environmental
+# variables is a colon ":". 
+# NOTE 2: If the provided value is not present it is ingored
+[removeEnv]
+LD_LIBRARY_PATH = "/this/has/to/go"
+LIBRARY_PATH = "/this/has/to/go/as/well"
 
 # set the given environmental variables to the provided values
 # NOTE: If the environmental variable exists it will be overwritten

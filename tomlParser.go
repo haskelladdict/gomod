@@ -24,8 +24,10 @@ type loadModulesSpec struct {
 // Module captures the information for a given module
 type Module struct {
 	Desc        description
-	PrependEnv  envSpec //prependEnvSpec
-	SetEnv      envSpec //setEnvSpec
+	AppendEnv   envSpec
+	PrependEnv  envSpec
+	RemoveEnv   envSpec
+	SetEnv      envSpec
 	UnsetEnv    envSpec
 	LoadModules loadModulesSpec
 }
@@ -48,9 +50,18 @@ func (m *Module) UnmarshalTOML(data interface{}) (err error) {
 			m.Desc.Short = v.(string)
 		case "prependEnv":
 			vMap := v.(map[string]interface{})
-			m.PrependEnv.Vars, ok = parseMapVars(vMap)
-			if !ok {
+			if m.PrependEnv.Vars, ok = parseMapVars(vMap); !ok {
 				return fmt.Errorf("parse error in [PrependEnv]")
+			}
+		case "appendEnv":
+			vMap := v.(map[string]interface{})
+			if m.AppendEnv.Vars, ok = parseMapVars(vMap); !ok {
+				return fmt.Errorf("parse error in [AppendEnv]")
+			}
+		case "removeEnv":
+			vMap := v.(map[string]interface{})
+			if m.PrependEnv.Vars, ok = parseMapVars(vMap); !ok {
+				return fmt.Errorf("parse error in [RemoveEnv]")
 			}
 		case "setEnv":
 			vMap := v.(map[string]interface{})

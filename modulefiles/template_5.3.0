@@ -1,0 +1,26 @@
+#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr "gcc version 5.3.0
+
+Testing:
+--------
+\$ module load gcc_libs-5.3.0
+
+--
+Website: http://www.gcc.gnu.org/
+ Source: http://mirrors.concertpass.com/gcc/releases/gcc-5.3.0/
+   Test: See 'Testing' section above.
+}
+
+
+module-whatis "This module contains the GNU compiler collection libraries"
+module-whatis "Version: 5.3.0"
+
+prepend-path LD_LIBRARY_PATH /path/to/sth
+prepend-path LIBRARY_PATH /path/to/sth1
+
+module load mpc_1.0.3
+module load gmp_6.1.0
+module load mpfr_3.1.3
