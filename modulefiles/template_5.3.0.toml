@@ -60,8 +60,24 @@ LIBRARY_PATH = "/this/has/to/go/as/well"
 COOL_ENV = "very cool"
 
 # unset the given environmental variable. 
-# NOTE: if an optional value is provided it will be used to set the environmental
+# NOTE: If an optional value is provided it will be used to set the environmental
 # variable after unsetting
 [unsetEnv]
 COOL_ENV = "default"
+
+# setAlias sets an alias in the user's environment. Upon unloading the module 
+# setAlias turns into an unsetAlias
+# NOTE: For shells which don't support aliases this turns into a no-op
+[setAlias]
+foo = "bar"
+
+# unsetAlias unsets an alias in the user's environment. 
+# NOTE: For shells which don't support aliases this turns into a no-op
+[unsetAlias]
+foo = "bar"
+
+
+
+
+
 

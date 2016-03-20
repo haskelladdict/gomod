@@ -13,9 +13,17 @@ type description struct {
 	Short string
 }
 
+// stringMap is a simple string map for key value pairs
+type stringMap map[string]string
+
 // envSpec captures environmental variables to be acted on
 type envSpec struct {
-	Vars map[string]string
+	Vars stringMap
+}
+
+// aliasSpec captures shell aliasea to be acted on
+type aliasSpec struct {
+	Vars stringMap
 }
 
 // modulesSpec captures a list of additional modules
@@ -31,6 +39,8 @@ type Module struct {
 	RemoveEnv    envSpec
 	SetEnv       envSpec
 	UnsetEnv     envSpec
+	SetAlias     aliasSpec
+	UnsetAlias   aliasSpec
 	LoadMods     modulesSpec
 	ConflictMods modulesSpec
 	PrereqMods   modulesSpec
@@ -76,6 +86,16 @@ func (m *Module) UnmarshalTOML(data interface{}) (err error) {
 			vMap := v.(map[string]interface{})
 			if m.UnsetEnv.Vars, ok = parseMapVars(vMap); !ok {
 				return fmt.Errorf("parse error in [unsetEnv]")
+			}
+		case "setAlias":
+			vMap := v.(map[string]interface{})
+			if m.SetAlias.Vars, ok = parseMapVars(vMap); !ok {
+				return fmt.Errorf("parse error in [setAlias]")
+			}
+		case "unsetAlias":
+			vMap := v.(map[string]interface{})
+			if m.UnsetAlias.Vars, ok = parseMapVars(vMap); !ok {
+				return fmt.Errorf("parse error in [unsetAlias]")
 			}
 		case "loadMods":
 			vArr := v.([]interface{})
