@@ -1,6 +1,8 @@
-// Package gomod provides functionality simular to the GNU modulefiles
+// Copyright 2016 Markus Dittrich. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 //
-// (C) Markus Dittrich, 2016
+// Package gomod provides functionality simular to the GNU modulefiles
 package main
 
 import (
