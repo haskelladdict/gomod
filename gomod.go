@@ -20,6 +20,9 @@ func main() {
 		log.Fatal("file name required")
 	}
 
+	env := parseEnv()
+	fmt.Println(env)
+
 	file, err := os.Open(os.Args[1])
 	if err != nil {
 		log.Fatal("error opening file ", os.Args[1], ": ", err)
