@@ -37,6 +37,7 @@ loadMods = [
 # prepend the given values for each of the listed environmental variables.
 # NOTE: The delimiter for prepending is a colon ":"
 [prependEnv]
+PATH = "/this/is/a/key/path"
 LD_LIBRARY_PATH = "/path/to/sth"
 LIBRARY_PATH = "/path/to/sth1"
 
@@ -51,7 +52,7 @@ LIBRARY_PATH = "/important/path"
 # variables is a colon ":". 
 # NOTE 2: If the provided value is not present it is ingored
 [removeEnv]
-LD_LIBRARY_PATH = "/this/has/to/go"
+LD_LIBRARY_PATH = "/path/to/sth"
 LIBRARY_PATH = "/this/has/to/go/as/well"
 
 # set the given environmental variables to the provided values

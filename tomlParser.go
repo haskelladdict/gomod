@@ -74,7 +74,7 @@ func (m *Module) UnmarshalTOML(data interface{}) (err error) {
 			}
 		case "removeEnv":
 			vMap := v.(map[string]interface{})
-			if m.PrependEnv.Vars, ok = parseMapVars(vMap); !ok {
+			if m.RemoveEnv.Vars, ok = parseMapVars(vMap); !ok {
 				return fmt.Errorf("parse error in [removeEnv]")
 			}
 		case "setEnv":

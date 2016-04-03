@@ -37,10 +37,18 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to parse module file ", err)
 	}
-	fmt.Println(mod.Desc.Short)
-	fmt.Println(mod.SetEnv.Vars)
-	fmt.Println(mod.UnsetEnv.Vars)
-	fmt.Println(mod.ConflictMods.Vars)
+
+	newEnv := make(Env)
+	fmt.Println(newEnv)
+	fmt.Println("*****************")
+	prependToEnv(env, newEnv, mod.PrependEnv)
+	fmt.Println(newEnv)
+	fmt.Println("*****************")
+	appendToEnv(env, newEnv, mod.AppendEnv)
+	fmt.Println(newEnv)
+	fmt.Println("*****************")
+	removeFromEnv(env, newEnv, mod.RemoveEnv)
+	fmt.Println(newEnv)
 }
 
 //
